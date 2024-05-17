@@ -12,10 +12,10 @@ class CustomerController {
     try {
       const { name, email, passwordHash } = req.body;
       await this.customerService.createCustomer(name, email, passwordHash);
-      res.status(201).json({ message: 'Produto criado com sucesso' });
+      res.status(201).json({ message: 'Cliente salvo com sucesso' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Erro ao salvar o produto' });
+      res.status(500).json({ error: 'Erro ao salvar o cliente' });
     }
   }
 }
