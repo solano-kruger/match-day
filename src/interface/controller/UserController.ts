@@ -1,17 +1,20 @@
 import { Request, Response } from 'express';
-import CustomerService from '../service/CustomerService';
+// import CustomerService from '../service/CustomerService';
+import { getAllCustomers, getCustomerById, createCustomer } from '../service/UserService';
+
 
 class CustomerController {
-  private customerService: CustomerService;
+  // private customerService: CustomerService;
 
-  constructor(customerService: CustomerService) {
-    this.customerService = customerService;
-  }
+  // constructor(customerService: CustomerService) {
+  //   this.customerService = customerService;
+  // }
 
   async createCustomer(req: Request, res: Response): Promise<void> {
     try {
       const { name, email, passwordHash } = req.body;
-      await this.customerService.createCustomer(name, email, passwordHash);
+      // await this.customerService.createCustomer(name, email, passwordHash);
+      await createCustomer(name, email, passwordHash);
       res.status(201).json({ message: 'Cliente salvo com sucesso' });
     } catch (error) {
       console.error(error);

@@ -1,14 +1,14 @@
-class Customer {
+class User {
     private id: number;
     private name: string;
     private email: string;
-    private passwordHash: string;
+    private password: string;
 
-    constructor(id: number, name: string, email: string, passwordHash: string) {
+    constructor(id: number, name: string, email: string, password: string) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
     }
 
     getId(): number {
@@ -35,11 +35,13 @@ class Customer {
         this.email = email;
     }
 
-    getPasswordHash(): string {
-        return this.passwordHash;
+    getpassword(): string {
+        return this.password;
     }
 
-    setPasswordHash(passwordHash: string): void {
-        this.passwordHash = passwordHash;
+    setpassword(password: string): void {
+        this.password = password;
     }
 }
+
+export default User;
