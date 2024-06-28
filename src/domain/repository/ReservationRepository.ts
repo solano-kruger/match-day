@@ -17,6 +17,14 @@ class ReservationRepository {
       const reservationId = result.insertId;
       return new Reservation(reservationId, sportCourtId, status);
     }
+
+    async updateReservationStatus(reservationId: number, newStatus: string): Promise<boolean> {
+      const result: any = await this.database.execute(
+          'UPDATE reservation SET status = ? WHERE id = ?',
+          [newStatus, reservationId]
+      );
+      return result.affectedRows > 0;
+  }
   
     async getUserReservations(userId: number): Promise<any[]> {
         const query = `
@@ -39,7 +47,7 @@ class ReservationRepository {
     
         try {
           const results = await this.database.execute(query, [userId]);
-          const rows = Array.isArray(results) ? results : [results]; // Ensure rows is always treated as an array
+          const rows = Array.isArray(results) ? results : [results]; 
     
           return rows.map((row: any) => ({
             reservationId: row.reservation_id,

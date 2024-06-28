@@ -13,16 +13,16 @@ const doc = {
     ]
 };
 
-const outputFile = './swagger-output.json'; // Certifique-se de que o caminho está correto
+const outputFile = './swagger-output.json'; 
 const endpointsFiles = [
     './src/interface/routes/UserRoutes.ts',
      './src/interface/routes/SportCourtRoutes.ts',
       './src/interface/routes/ReservationRoutes.ts',
-        './src/interface/routes/UserReservationRoutes.ts']; // Verifique o caminho aqui
+        './src/interface/routes/UserReservationRoutes.ts']; 
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
     console.log('Arquivo swagger-output.json gerado com sucesso');
-    // Verifique se o arquivo foi gerado corretamente
+
     const fs = require('fs');
     fs.readFile(outputFile, 'utf8', (err, data) => {
         if (err) {

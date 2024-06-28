@@ -8,7 +8,7 @@ router.post('/reservation', async (req, res) => {
     sportCourtId: number;
     userId: number;
     status: string;
-};  /*
+  };  /*
     #swagger.tags = ['Reservation']
     #swagger.summary = 'Create reservation'
     #swagger.description = 'This endpoint will create user reservation'
@@ -45,6 +45,28 @@ router.get('/reservation/:userId', async (req, res) => {
     } else {
       res.status(500).json({ error: 'Unknown error' });
     }
+  }
+});
+
+router.patch('/reservation/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  /*
+    #swagger.tags = ['Reservation']
+    #swagger.summary = 'Update reservation byid'
+    #swagger.description = 'This endpoint will update the reservation status'
+  */
+  try {
+
+    const updated = await ReservationService.updateReservationStatus(parseInt(id), status);
+    if (updated) {
+      res.status(200).json({ message: 'Reservation status updated successfully.' });
+    } else {
+      res.status(404).json({ message: 'Reservation not found or no update needed.' });
+    }
+  } catch (error) {
+    console.error('Error in PATCH /reservation/:id/status:', error);
+    res.status(500).json({ error: 'Failed to update reservation status.' });
   }
 });
 
