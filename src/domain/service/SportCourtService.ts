@@ -7,7 +7,7 @@ const getAllSportCourts = async (): Promise<SportCourt[]> => {
       return sportCourts.map((sc: { id: number; name: string; reservated: boolean; description: string | null; size: string; location: string; start_datetime: Date; end_datetime: Date; price: { toNumber: () => number; }; }) => mapSportCourtToModel(sc));
     } catch (error) {
       console.error("Erro ao buscar todas as quadras esportivas:", error);
-      throw error; // Rejeita a Promessa para repassar o erro para quem chamou esta função
+      throw error; 
     }
   };
 
@@ -38,13 +38,63 @@ const createSportCourt = async (
       location,
       start_datetime,
       end_datetime,
-      price: price.toString(), // Convertendo number para string
+      price: price.toString(), 
     },
   });
   return mapSportCourtToModel(sportCourt);
 };
 
-// Função auxiliar para mapear dados do Prisma para o modelo SportCourt
+const getSportCourts = async (query: any): Promise<any> => {
+  const { page = '1', limit = '10', name, location, size, start_datetime, end_datetime } = query;
+
+  const filters: any = {};
+  if (name) {
+    filters.name = { contains: name, mode: 'insensitive' };
+  }
+  if (location) {
+    filters.location = { contains: location, mode: 'insensitive' };
+  }
+  if (size) {
+    filters.size = size;
+  }
+  if (start_datetime) {
+    filters.start_datetime = { gte: new Date(start_datetime) };
+  }
+  if (end_datetime) {
+    filters.end_datetime = { lte: new Date(end_datetime) };
+  }
+
+  const pageNumber = parseInt(page, 10);
+  const limitNumber = parseInt(limit, 10);
+  const skip = (pageNumber - 1) * limitNumber;
+
+  try {
+    const [data, total] = await prisma.$transaction([
+      prisma.sport_Court.findMany({
+        where: filters,
+        skip: skip,
+        take: limitNumber,
+      }),
+      prisma.sport_Court.count({
+        where: filters,
+      }),
+    ]);
+
+    const totalPages = Math.ceil(total / limitNumber);
+
+    return {
+      data: data.map((sc) => mapSportCourtToModel(sc)),
+      total,
+      totalPages,
+      currentPage: pageNumber,
+    };
+  } catch (error) {
+    console.error("Erro ao buscar quadras esportivas com filtros e paginação:", error);
+    throw error;
+  }
+};
+
+
 const mapSportCourtToModel = (data: {
   id: number;
   name: string;
@@ -65,8 +115,8 @@ const mapSportCourtToModel = (data: {
     data.location,
     data.start_datetime,
     data.end_datetime,
-    data.price.toNumber(), // Convertendo Decimal para number
+    data.price.toNumber(), 
   );
 };
 
-export { getAllSportCourts, getSportCourtById, createSportCourt };
+export { getAllSportCourts, getSportCourtById, createSportCourt, getSportCourts };

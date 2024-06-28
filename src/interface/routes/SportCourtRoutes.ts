@@ -1,7 +1,65 @@
 import express from 'express';
-import { getAllSportCourts, getSportCourtById, createSportCourt } from '../../domain/service/SportCourtService';
+import { getAllSportCourts, getSportCourtById, createSportCourt, getSportCourts } from '../../domain/service/SportCourtService';
 
 const router = express.Router();
+
+
+router.get('/sportCourtPaginated', async (req, res) => {
+  try {
+    const result = await getSportCourts(req.query);
+  /* 
+      #swagger.tags = ['Court']
+      #swagger.summary = 'List courts with filters and pagination'
+      #swagger.description = 'This endpoint will list the courts with available filters and pagination'
+      #swagger.parameters['page'] = {
+          in: 'query',
+          description: 'Page number',
+          required: false,
+          type: 'integer'
+      }
+      #swagger.parameters['limit'] = {
+          in: 'query',
+          description: 'Number of records per page',
+          required: false,
+          type: 'integer'
+      }
+      #swagger.parameters['name'] = {
+          in: 'query',
+          description: 'Filter by court name',
+          required: false,
+          type: 'string'
+      }
+      #swagger.parameters['location'] = {
+          in: 'query',
+          description: 'Filter by court location',
+          required: false,
+          type: 'string'
+      }
+      #swagger.parameters['size'] = {
+          in: 'query',
+          description: 'Filter by court size',
+          required: false,
+          type: 'string'
+      }
+      #swagger.parameters['start_datetime'] = {
+          in: 'query',
+          description: 'Filter by start date and time',
+          required: false,
+          type: 'string'
+      }
+      #swagger.parameters['end_datetime'] = {
+          in: 'query',
+          description: 'Filter by end date and time',
+          required: false,
+          type: 'string'
+      }
+  */
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 router.get('/sportCourt/:id', async (req, res) => {
   const { id } = req.params;

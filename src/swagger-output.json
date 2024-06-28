@@ -78,6 +78,88 @@
         }
       }
     },
+    "/sportCourtPaginated": {
+      "get": {
+        "tags": [
+          "Court"
+        ],
+        "summary": "List courts with filters and pagination",
+        "description": "This endpoint will list the courts with available filters and pagination",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of records per page",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Filter by court name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "description": "Filter by court location",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Filter by court size",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start_datetime",
+            "in": "query",
+            "description": "Filter by start date and time",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end_datetime",
+            "in": "query",
+            "description": "Filter by end date and time",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/sportCourt/{id}": {
       "get": {
         "tags": [
@@ -210,6 +292,87 @@
         ],
         "summary": "List all courts",
         "description": "This endpoint will list all the courts",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservation": {
+      "post": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Create reservation",
+        "description": "This endpoint will create user reservation",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sportCourtId": {
+                    "example": "any"
+                  },
+                  "userId": {
+                    "example": "any"
+                  },
+                  "status": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reservation/{userId}": {
+      "get": {
+        "tags": [
+          "Reservation"
+        ],
+        "summary": "Get reservation by userId",
+        "description": "This endpoint will retrieve a detailed user reservations",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user-reservations": {
+      "get": {
+        "tags": [
+          "UserReservation"
+        ],
+        "summary": "Get all user reservations",
+        "description": "This endpoint will retrieve all user reservations",
         "responses": {
           "200": {
             "description": "OK"

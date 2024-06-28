@@ -14,7 +14,11 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json'; // Certifique-se de que o caminho está correto
-const endpointsFiles = ['./src/interface/routes/UserRoutes.ts', './src/interface/routes/SportCourtRoutes.ts']; // Verifique o caminho aqui
+const endpointsFiles = [
+    './src/interface/routes/UserRoutes.ts',
+     './src/interface/routes/SportCourtRoutes.ts',
+      './src/interface/routes/ReservationRoutes.ts',
+        './src/interface/routes/UserReservationRoutes.ts']; // Verifique o caminho aqui
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
     console.log('Arquivo swagger-output.json gerado com sucesso');
